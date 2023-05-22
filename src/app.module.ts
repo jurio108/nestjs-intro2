@@ -3,6 +3,5 @@ import { BoardsModule } from './boards/boards.module';
 
 @Module({
   imports: [BoardsModule],
-  providers: [],
 })
 export class AppModule {}
