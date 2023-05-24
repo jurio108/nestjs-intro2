@@ -15,7 +15,6 @@ export class BoardRepository extends Repository<Board> {
       status: BoardStatus.PUBLIC,
     });
 
-    const insertedBoard = await this.save(board);
-    return insertedBoard;
+    return await this.save(board);
   }
 }
