@@ -10,6 +10,7 @@ import {
   ValidationPipe,
   ParseIntPipe,
   UseGuards,
+  Logger,
 } from '@nestjs/common';
 import { BoardsService } from './boards.service';
 import { BoardStatus } from './board-status.enum';
@@ -23,10 +24,12 @@ import { User } from 'src/auth/user.entity';
 @Controller('boards')
 @UseGuards(AuthGuard())
 export class BoardsController {
+  private logger = new Logger('BoardsController');
   constructor(private boardService: BoardsService) {}
 
   @Get()
   getAllBoards(@GetUser() user: User): Promise<Board[]> {
+    this.logger.verbose(`User ${user.username} trying to get all boards.`);
     return this.boardService.getAllBoards(user);
   }
 
@@ -41,6 +44,9 @@ export class BoardsController {
     @Body() createBoardDto: CreateBoardDto,
     @GetUser() user: User,
   ): Promise<Board> {
+    this.logger.verbose(
+      `User ${user.username} create a new board. ${createBoardDto.title} ${createBoardDto.description}`,
+    );
     return this.boardService.createBoard(createBoardDto, user);
   }
 
